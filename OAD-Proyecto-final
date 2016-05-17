@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
 //aun revisando vtk :v
+
 template<class Lhs, class Rhs>
   auto add(const Lhs &lhs, const Rhs &rhs) -> decltype(lhs+rhs) {return lhs + rhs;}
