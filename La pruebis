@@ -1,0 +1,66 @@
+local PANEL = {}
+
+AccessorFunc( PANEL, "fFunction", 		"Function" )
+AccessorFunc( PANEL, "iStep", 			"Step" )
+AccessorFunc( PANEL, "aLimit", 			"Limit" )
+AccessorFunc( PANEL, "fDrawBackgound", 	"DrawBackground" )
+AccessorFunc( PANEL, "fDrawPoints", 	"DrawPoints" )
+
+function PANEL:Init( )
+	
+	self.fFunction = function( x ) return 0 end;
+	self.iStep = 0.1
+	self.aLimit = { ['xmin'] = -10,
+					['xmax'] =  10,
+					['ymin'] = -10,
+					['ymax'] =  10}
+				
+	self._DATA = {}
+
+end
+
+function PANEL:ValidateSettings( )
+	
+	if self.aLimit.xmin > self.aLimit.xmax then
+		self.aLimit.xmax = 2*self.aLimit.xmin - self.aLimit.xmax
+	end
+	
+	if self.aLimit.ymin > self.aLimit.ymax then
+		self.ymax = 2*self.aLimit.ymin - self.aLimit.ymax
+	end
+	
+	self.iStep = self.iStep > 0 and self.iStep or -self.iStep
+	
+	if not self.function then 
+		self.function = function( x ) return 0 end
+	end
+	
+end
+
+function PANEL:CalculateData( )
+
+	self:ValidateSettings( )
+	
+	self._DATA = {}
+
+	for i = self.aLimit.xmin, self.aLimit.xmax, self.iStep do
+	
+		self._DATA[ i ] = self.fFunction( i )
+	
+	end
+	
+end
+
+function PANEL:fDrawBackground()
+		
+	local w, h = self:GetSize( )
+	local x, y = self:GetPos( )
+	
+end
+	
+function PANEL:Paint( )
+
+	self:fDrawBackground( )
+	self:fDrawPoints( )
+
+end
